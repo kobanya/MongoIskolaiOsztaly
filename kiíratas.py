@@ -10,31 +10,23 @@ db = client["ISKOLA"]
 def main():
     # Diákok lekérdezése az adatbázisból
     diakok_collection = db["Diakok"]
-    diak = diakok_collection.find_one({"nev": "Nagy Béla"})
+    diakok = diakok_collection.find()
 
-    if diak:
-        fizika_jegyek = diakok_collection.aggregate([
-            {"$match": {"_id": diak["_id"]}},
-            {"$unwind": "$erdemjegyek"},
-            {"$match": {"erdemjegyek.tantargy": "Fizika"}},
-            {"$project": {"_id": 0, "erdemjegy": "$erdemjegyek.erdemjegy"}}
-        ])
-
-        fizika_jegyek = [jegy["erdemjegy"] for jegy in fizika_jegyek]
+    for diak in diakok:
+        fizika_jegyek = [jegy["erdemjegy"] for jegy in diak["erdemjegyek"] if jegy["tantargy"] == "Fizika"]
 
         if fizika_jegyek:
-            print("Nagy Béla Fizika érdemjegyei:", ", ".join(map(str, fizika_jegyek)))
+            print(f"{diak['nev']} Fizika érdemjegyei:", ", ".join(map(str, fizika_jegyek)))
 
             # Érdemjegyek átlagának kiszámítása
             if len(fizika_jegyek) > 0:
                 atlag = sum(fizika_jegyek) / len(fizika_jegyek)
-                print(f"Jegyek átlaga: {atlag:.1f}")
+                print(f"{diak['nev']} jegyek átlaga: {atlag:.1f}")
+                print("-------------------------")
             else:
-                print("Nincs érdemjegy az átlaghoz.")
+                print(f"{diak['nev']} nincs érdemjegy az átlaghoz.")
         else:
-            print("Nagy Béla Fizika érdemjegyei nem találhatóak.")
-    else:
-        print("Nagy Béla nem található az adatbázisban.")
+            print(f"{diak['nev']} Fizika érdemjegyei nem találhatóak.")
 
 
 if __name__ == "__main__":
