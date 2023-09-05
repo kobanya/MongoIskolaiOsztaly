@@ -42,7 +42,7 @@ else:
     print("Érdemjegyek hozzáadva.")
 
 # Kiíratás
-print("Diák\t\t\t\t\tÉrdemjegyek")
+print("Diák\t\t\t\t\t\t\tÉrdemjegyek")
 print("------------------------------------------------------")
 for diak in diakok_collection.find():
     diak_nev = diak["nev"]
