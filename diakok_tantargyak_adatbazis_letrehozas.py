@@ -35,17 +35,17 @@ else:
         for tantargy in tantargyak_collection.find():
             erdemjegyek_collection.insert_one({
                 "diak_id": diak["_id"],
-                "tantargy_id": tantargy["_id"],
-                "erdemjegy": 5
+                "tantargy_id": tantargy["_id"]
+
             })
 
     print("Érdemjegyek hozzáadva.")
 
 # Kiíratás
-print("Diák\t\t\t\t\t\t\tÉrdemjegyek")
-print("------------------------------------------------------")
+print("Diákok")
+print("-----------------------------")
 for diak in diakok_collection.find():
     diak_nev = diak["nev"]
-    erdemjegyek = erdemjegyek_collection.find({"diak_id": diak["_id"]})
-    erdemjegyek_text = "\t".join([str(t["erdemjegy"]) for t in erdemjegyek])
-    print(f"{diak_nev:<30}\t{erdemjegyek_text}")
+
+    print(f"{diak_nev:<30}")
+
