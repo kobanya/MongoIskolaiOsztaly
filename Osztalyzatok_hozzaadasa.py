@@ -1,3 +1,8 @@
+'''
+Írj Python programot, amely az előzőleg létrehozott ISKOLA adatbázis Diákjait osztályozza
+ a gyűjteményben szereplő tantárgyakból. A diákot, a tantárgyat és az érdemjegyet össze kell
+ kötni és elmenteni a MongoDB adatbázisba.
+'''
 from pymongo import MongoClient
 
 # MongoDB adatbázis kapcsolat létrehozása
@@ -11,7 +16,7 @@ def main():
     # Diákok lekérdezése az adatbázisból
     diakok_collection = db["Diakok"]
     diakok = list(diakok_collection.find())
-
+    # Diákok sorszámozása
     print("Diákok:")
     for idx, diak in enumerate(diakok, start=1):
         print(f"{idx}. {diak['nev']}")
@@ -34,6 +39,8 @@ def main():
 
     # Érdemjegyek mentése az adatbázisba
     if "erdemjegyek" in valasztott_diak:
+        #A $push operátorral adjuk hozzá az új érdemjegyeket a meglévő érdemjegyekhez.
+        # A $each operátorral megadhatjuk egy tömbben az új érdemjegyeket, amelyeket hozzá szeretnénk adni.
         diakok_collection.update_one({"_id": valasztott_diak["_id"]},
                                      {"$push": {"erdemjegyek": {"$each": erdemjegyek}}})
     else:

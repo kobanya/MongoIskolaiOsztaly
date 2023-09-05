@@ -1,3 +1,7 @@
+'''
+Készíts Python programot amely az előzőleg elkészült adatbázisból kigyűjti az Iskola adatbázis
+ Diákjainak fizika jegyeit és kiszámolja azok átlagát
+'''
 from pymongo import MongoClient
 
 # MongoDB adatbázis kapcsolat létrehozása

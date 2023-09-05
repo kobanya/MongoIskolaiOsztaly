@@ -1,3 +1,8 @@
+'''
+NB- Készíts MongoDb adatbázist ISKOLA néven. Hozz létre gyűjteményt DIÁKOK és TANTÁRGYAK néven.
+Töltsd fel adatokkal.
+'''
+
 from pymongo import MongoClient
 
 client = MongoClient("mongodb://localhost:27017/")
@@ -5,7 +10,6 @@ db = client["ISKOLA"]
 
 diakok_collection = db["Diakok"]
 tantargyak_collection = db["Tantargyak"]
-erdemjegyek_collection = db["Erdemjegyek"]
 
 if "Diakok" in db.list_collection_names() and "Tantargyak" in db.list_collection_names():
     print("Az adatbázis már létezik!")
@@ -30,16 +34,6 @@ else:
     ])
 
     print("Az adatbázis és a collection-ök létrehozva.")
-
-    for diak in diakok_collection.find():
-        for tantargy in tantargyak_collection.find():
-            erdemjegyek_collection.insert_one({
-                "diak_id": diak["_id"],
-                "tantargy_id": tantargy["_id"]
-
-            })
-
-    print("Érdemjegyek hozzáadva.")
 
 # Kiíratás
 print("Diákok")
